@@ -1,0 +1,27 @@
+{
+  "name": "mapaelecciones",
+  "version": "1.0.0",
+  "description": "Mapa que muestra resultados de elecciones por distritos",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lecruz01/mapa-elecciones.git"
+  },
+  "keywords": [
+    "mapa",
+    "elecciones",
+    "mapbox"
+  ],
+  "author": "Luis Cruz",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/lecruz01/mapa-elecciones/issues"
+  },
+  "homepage": "https://github.com/lecruz01/mapa-elecciones#readme",
+  "devDependencies": {
+    "gulp": "^4.0.1"
+  }
+}
