@@ -1,27 +1,40 @@
 {
-  "name": "mapaelecciones",
-  "version": "1.0.0",
-  "description": "Mapa que muestra resultados de elecciones por distritos",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lecruz01/mapa-elecciones.git"
-  },
-  "keywords": [
-    "mapa",
-    "elecciones",
-    "mapbox"
-  ],
-  "author": "Luis Cruz",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/lecruz01/mapa-elecciones/issues"
-  },
-  "homepage": "https://github.com/lecruz01/mapa-elecciones#readme",
-  "devDependencies": {
-    "gulp": "^4.0.1"
-  }
+    "name": "mapaelecciones",
+    "version": "1.0.0",
+    "description": "Mapa que muestra resultados de elecciones por distritos",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/lecruz01/mapa-elecciones.git"
+    },
+    "keywords": [
+        "mapa",
+        "elecciones",
+        "mapbox"
+    ],
+    "author": "Luis Cruz",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/lecruz01/mapa-elecciones/issues"
+    },
+    "homepage": "https://github.com/lecruz01/mapa-elecciones#readme",
+    "devDependencies": {
+        "@babel/core": "^7.3.4",
+        "gulp": "^4.0.1",
+        "gulp-babel": "^8.0.0",
+        "gulp-concat": "^2.6.1",
+        "gulp-plumber": "^1.2.1",
+        "gulp-rename": "^1.4.0",
+        "gulp-stylus": "^2.7.0",
+        "gulp-terser": "^1.1.7",
+        "gulp-uglify": "^3.0.2",
+        "local-web-server": "^2.6.1",
+        "nib": "^1.1.2",
+        "npm": "^6.8.0",
+        "rupture": "^0.7.1",
+        "terser": "^3.17.0"
+    }
 }
