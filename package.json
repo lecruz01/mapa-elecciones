@@ -4,6 +4,8 @@
     "description": "Mapa que muestra resultados de elecciones por distritos",
     "main": "index.js",
     "scripts": {
+        "create-dev": "cd src && node ../node_modules/gulp/bin/gulp.js",
+        "serve": "node ./node_modules/local-web-server/bin/cli.js",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
