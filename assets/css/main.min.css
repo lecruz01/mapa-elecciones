@@ -1,1 +1,1 @@
-body{--webkit-font-smoothing:antialiased}#map{min-height:600px}
+body{--webkit-font-smoothing:antialiased;margin:0;padding:0}#map{width:50vw;height:50vh;background-color:#faebd7}#map{min-height:600px}
