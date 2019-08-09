@@ -8,12 +8,144 @@
 //     center: [-73.9978, 40.7509],
 //     zoom: 13,
 // });
-var map = new mapboxgl.Map({
-    container: 'map',
-    style: 'mapbox://styles/mapbox/light-v10',
-    center: [-99.701254, 19.294099],
-    zoom: 8
+
+var map;
+require([
+    "esri/map",
+    "esri/layers/FeatureLayer",
+    "esri/dijit/PopupTemplate",
+    "esri/request",
+    "esri/geometry/Point",
+    "esri/graphic",
+    "dojo/on",
+    "dojo/_base/array",
+    "dojo/domReady!"
+], function(
+    Map,
+    FeatureLayer,
+    PopupTemplate,
+    esriRequest,
+    Point,
+    Graphic,
+    on,
+    array
+) {
+
+    var featureLayer;
+
+    map = new Map("map", {
+        basemap: "gray",
+        center: [-99.701254, 19.294099],
+        zoom: 9
+    });
+
+    //hide the popup if its outside the map's extent
+    map.on("mouse-drag", function(evt) {
+        if (map.infoWindow.isShowing) {
+            var loc = map.infoWindow.getSelectedFeature().geometry;
+            if (!map.extent.contains(loc)) {
+                map.infoWindow.hide();
+            }
+        }
+    });
+
+    fetch('http://192.168.104.193:8000/data/ESCUELAS.json')
+        .then(res => {
+            return res.json();
+        })
+        .then(data => {
+            console.log(data);
+            //create a feature collection for the flickr photos
+            var featureCollection = {
+                "layerDefinition": {
+                    "geometryType": data.geometryType,
+                    "objectIdField": "ObjectID",
+                    "drawingInfo": {
+                        "renderer": {
+                            "type": "simple",
+                            "symbol": {
+                                "type": "esriPMS",
+                                "url": "images/flickr.png",
+                                "contentType": "image/png",
+                                "width": 15,
+                                "height": 15
+                            }
+                        }
+                    },
+                    "fields": data.fields
+                },
+                "featureSet": {
+                    "features": [],
+                    "geometryType": data.geometryType
+                }
+            };
+
+            //define a popup template
+            var popupTemplate = new PopupTemplate({
+                title: "{title}",
+                description: "{description}"
+            });
+
+            //create a feature layer based on the feature collection
+            featureLayer = new FeatureLayer(featureCollection, {
+                id: 'schoolsLayer'
+            });
+
+            //associate the features with the popup on click
+            // featureLayer.on("click", function(evt) {
+            //     map.infoWindow.setFeatures([evt.graphic]);
+            // });
+
+            map.on("layers-add-result", function(results) {
+                requestPhotos();
+            });
+            //add the feature layer that contains the flickr photos to the map
+            map.addLayers([featureLayer]);
+        });
+
+    function requestPhotos() {
+        //get geotagged photos from flickr
+        //tags=flower&tagmode=all
+        var requestHandle = esriRequest({
+            url: "./data/escuela.json",
+            callbackParamName: "jsoncallback"
+        });
+        requestHandle.then(requestSucceeded, requestFailed);
+    }
+
+    function requestSucceeded(response, io) {
+        //loop through the items and add to the feature layer
+        var features = [];
+        array.forEach(response.features, function(item) {
+            var attr = item.attributes;
+
+            console.log(item.geometry);
+            var geometry = new Point(item.geometry);
+
+            // var graphic = new Graphic(geometry);
+            // graphic.setAttributes(attr);
+            features.push(geometry);
+        });
+
+        console.log(features);
+        featureLayer.applyEdits(features, null, null);
+    }
+
+    function requestFailed(error) {
+        console.log('failed');
+    }
 });
+
+
+// var map = new mapboxgl.Map({
+//     container: 'map',
+//     style: 'mapbox://styles/mapbox/light-v10',
+//     center: [-99.701254, 19.294099],
+//     zoom: 8
+// });
+
+
+
 // mapboxgl.accessToken = 'pk.eyJ1IjoibGVjcnV6MDEiLCJhIjoiY2pyY2t1aXJiMWV3bTQ0bndiZHFtZnd3dCJ9.T_AWHGpxthQg8DRhzuKTGg';
 // var map = new mapboxgl.Map({
 //     container: 'map',
@@ -68,8 +200,8 @@ var map = new mapboxgl.Map({
 //         $.ajax({
 //             'async': false,
 //             'global': false,
-//             'url': "../assets/data/CP_15Mex_v5.json",
-//             'dataType': "json",
+//             'url': '../assets/data/CP_15Mex_v5.json',
+//             'dataType': 'json',
 //             'success': function(data) {
 //                 json = data;
 //                 map.addSource('codigos', {
@@ -77,13 +209,13 @@ var map = new mapboxgl.Map({
 //                     data: json
 //                 });
 //                 map.addLayer({
-//                     "id": "codigoslayer",
-//                     "type": "fill",
-//                     "source": "codigos",
-//                     "layout": {},
-//                     "paint": {
-//                         "fill-color": "#627BC1",
-//                         "fill-opacity": 0.5
+//                     'id': 'codigoslayer',
+//                     'type': 'fill',
+//                     'source': 'codigos',
+//                     'layout': {},
+//                     'paint': {
+//                         'fill-color': '#627BC1',
+//                         'fill-opacity': 0.5
 //                     }
 //                 });
 
